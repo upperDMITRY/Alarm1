@@ -143,6 +143,7 @@ namespace Alarm {
 			this->maskedTextBox1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(98)), static_cast<System::Int32>(static_cast<System::Byte>(98)),
 				static_cast<System::Int32>(static_cast<System::Byte>(98)));
 			this->maskedTextBox1->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->maskedTextBox1->Enabled = false;
 			this->maskedTextBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 26.03077F, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(204)));
 			this->maskedTextBox1->ForeColor = System::Drawing::SystemColors::HighlightText;
@@ -324,13 +325,12 @@ namespace Alarm {
 
 		}
 
+		String alarmTime;
 #pragma endregion
 	private: System::Void maskedTextBox1_MaskInputRejected(System::Object^ sender, System::Windows::Forms::MaskInputRejectedEventArgs^ e) {
 	}
 
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
-		/*label2->Text = DateTime::Now.Hour.ToString("00") + ":" +
-			DateTime::Now.Minute.ToString("00") + ":" + DateTime::Now.Second.ToString("00");*/
 		
 		buttonStop1->Enabled = false;
 		buttonStop2->Enabled = false;
@@ -342,6 +342,7 @@ namespace Alarm {
 	}
 	private: System::Void buttonStart1_Click(System::Object^ sender, System::EventArgs^ e) {
 
+
 	}
 
 
@@ -349,6 +350,11 @@ namespace Alarm {
 	private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
 		label2->Text = DateTime::Now.Hour.ToString("00") + ":" +
 			DateTime::Now.Minute.ToString("00") + ":" + DateTime::Now.Second.ToString("00");
+
+		if ((alarmTime.Concat(":00") == label2->Text)
+		{
+
+		}
 	}
 };
 }
