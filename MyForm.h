@@ -61,6 +61,10 @@ namespace Alarm {
 
 
 
+
+
+
+
 	private: System::ComponentModel::IContainer^ components;
 
 	private:
@@ -122,6 +126,7 @@ namespace Alarm {
 			this->buttonStop1->TabIndex = 2;
 			this->buttonStop1->Text = L"Остановить";
 			this->buttonStop1->UseVisualStyleBackColor = false;
+			this->buttonStop1->Click += gcnew System::EventHandler(this, &MyForm::buttonStop1_Click);
 			// 
 			// buttonStart1
 			// 
@@ -143,10 +148,9 @@ namespace Alarm {
 			this->maskedTextBox1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(98)), static_cast<System::Int32>(static_cast<System::Byte>(98)),
 				static_cast<System::Int32>(static_cast<System::Byte>(98)));
 			this->maskedTextBox1->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->maskedTextBox1->Enabled = false;
 			this->maskedTextBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 26.03077F, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(204)));
-			this->maskedTextBox1->ForeColor = System::Drawing::SystemColors::HighlightText;
+			this->maskedTextBox1->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
 			this->maskedTextBox1->Location = System::Drawing::Point(12, 20);
 			this->maskedTextBox1->Mask = L"00:00";
 			this->maskedTextBox1->Name = L"maskedTextBox1";
@@ -161,12 +165,12 @@ namespace Alarm {
 			this->label1->AutoSize = true;
 			this->label1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(63)), static_cast<System::Int32>(static_cast<System::Byte>(63)),
 				static_cast<System::Int32>(static_cast<System::Byte>(63)));
-			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12.18462F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
+			this->label1->Font = (gcnew System::Drawing::Font(L"Agency FB", 16.06154F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
 			this->label1->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
-			this->label1->Location = System::Drawing::Point(113, 4);
+			this->label1->Location = System::Drawing::Point(68, -3);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(269, 29);
+			this->label1->Size = System::Drawing::Size(363, 36);
 			this->label1->TabIndex = 1;
 			this->label1->Text = L"Установка будильника";
 			// 
@@ -195,6 +199,7 @@ namespace Alarm {
 			this->buttonStop2->TabIndex = 3;
 			this->buttonStop2->Text = L"Остановить";
 			this->buttonStop2->UseVisualStyleBackColor = false;
+			this->buttonStop2->Click += gcnew System::EventHandler(this, &MyForm::buttonStop2_Click);
 			// 
 			// buttonStart2
 			// 
@@ -209,6 +214,7 @@ namespace Alarm {
 			this->buttonStart2->TabIndex = 1;
 			this->buttonStart2->Text = L"Установить";
 			this->buttonStart2->UseVisualStyleBackColor = false;
+			this->buttonStart2->Click += gcnew System::EventHandler(this, &MyForm::buttonStart2_Click);
 			// 
 			// maskedTextBox2
 			// 
@@ -251,6 +257,7 @@ namespace Alarm {
 			this->buttonStop3->TabIndex = 4;
 			this->buttonStop3->Text = L"Остановить";
 			this->buttonStop3->UseVisualStyleBackColor = false;
+			this->buttonStop3->Click += gcnew System::EventHandler(this, &MyForm::buttonStop3_Click);
 			// 
 			// buttonStart3
 			// 
@@ -265,6 +272,7 @@ namespace Alarm {
 			this->buttonStart3->TabIndex = 1;
 			this->buttonStart3->Text = L"Установить";
 			this->buttonStart3->UseVisualStyleBackColor = false;
+			this->buttonStart3->Click += gcnew System::EventHandler(this, &MyForm::buttonStart3_Click);
 			// 
 			// maskedTextBox3
 			// 
@@ -325,13 +333,14 @@ namespace Alarm {
 
 		}
 
-		String alarmTime;
+		String^ alarmTime1;
+		String^ alarmTime2;
+		String^ alarmTime3;
+		SoundPlayer^ sp = gcnew SoundPlayer("D:\\Projects_C\\2-nd\\2-nd\\Alarm\\sound\\sound.wav");
 #pragma endregion
-	private: System::Void maskedTextBox1_MaskInputRejected(System::Object^ sender, System::Windows::Forms::MaskInputRejectedEventArgs^ e) {
-	}
 
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
-		
+
 		buttonStop1->Enabled = false;
 		buttonStop2->Enabled = false;
 		buttonStop3->Enabled = false;
@@ -340,21 +349,81 @@ namespace Alarm {
 		this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
 		timer1->Start();
 	}
-	private: System::Void buttonStart1_Click(System::Object^ sender, System::EventArgs^ e) {
-
-
-	}
-
-
-
+	
 	private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
+
 		label2->Text = DateTime::Now.Hour.ToString("00") + ":" +
 			DateTime::Now.Minute.ToString("00") + ":" + DateTime::Now.Second.ToString("00");
 
-		if ((alarmTime.Concat(":00") == label2->Text)
+		if ((alarmTime1 + (":00")) == label2->Text)
 		{
+			sp->Play();
+			buttonStart1->Enabled = true;
+			buttonStop1->Enabled = false;
+			maskedTextBox1->Enabled = true;
+		}
 
+		else if ((alarmTime2 + (":00")) == label2->Text)
+		{
+			sp->Play();
+			buttonStart2->Enabled = true;
+			buttonStop2->Enabled = false;
+			maskedTextBox2->Enabled = true;
+		}
+
+		else if ((alarmTime3 + (":00")) == label2->Text)
+		{
+			sp->Play();
+			buttonStart3->Enabled = true;
+			buttonStop3->Enabled = false;
+			maskedTextBox3->Enabled = true;
 		}
 	}
+
+	private: System::Void buttonStart1_Click(System::Object^ sender, System::EventArgs^ e) {
+		alarmTime1 = maskedTextBox1->Text;
+
+		buttonStart1->Enabled = false;
+		buttonStop1->Enabled = true;
+
+		maskedTextBox1->Enabled = false;
+	}
+
+	private: System::Void buttonStop1_Click(System::Object^ sender, System::EventArgs^ e) {
+		buttonStart1->Enabled = true;
+		buttonStop1->Enabled = false;
+		maskedTextBox1->Enabled = true;
+	}
+
+
+	private: System::Void buttonStart2_Click(System::Object^ sender, System::EventArgs^ e) {
+		alarmTime2 = maskedTextBox2->Text;
+
+		buttonStart2->Enabled = false;
+		buttonStop2->Enabled = true;
+
+		maskedTextBox2->Enabled = false;
+	}
+private: System::Void buttonStop2_Click(System::Object^ sender, System::EventArgs^ e) {
+	buttonStart2->Enabled = true;
+	buttonStop2->Enabled = false;
+	maskedTextBox2->Enabled = true;
+}
+private: System::Void buttonStart3_Click(System::Object^ sender, System::EventArgs^ e) {
+	alarmTime3 = maskedTextBox3->Text;
+
+	buttonStart3->Enabled = false;
+	buttonStop3->Enabled = true;
+
+	maskedTextBox3->Enabled = false;
+}
+private: System::Void buttonStop3_Click(System::Object^ sender, System::EventArgs^ e) {
+	buttonStart3->Enabled = true;
+	buttonStop3->Enabled = false;
+	maskedTextBox3->Enabled = true;
+}
+private: System::Void maskedTextBox1_MaskInputRejected(System::Object^ sender, System::Windows::Forms::MaskInputRejectedEventArgs^ e) {
+
+}
 };
 }
