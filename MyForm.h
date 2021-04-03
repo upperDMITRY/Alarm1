@@ -38,7 +38,7 @@ namespace Alarm {
 		}
 	private: System::Windows::Forms::Panel^ panel1;
 	protected:
-	private: System::Windows::Forms::MaskedTextBox^ maskedTextBox1;
+
 	private: System::Windows::Forms::Label^ label1;
 
 
@@ -57,6 +57,7 @@ namespace Alarm {
 	private: System::Windows::Forms::Button^ buttonStop3;
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Timer^ timer1;
+	private: System::Windows::Forms::MaskedTextBox^ maskedTextBox1;
 
 
 
@@ -82,9 +83,9 @@ namespace Alarm {
 		{
 			this->components = (gcnew System::ComponentModel::Container());
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
+			this->maskedTextBox1 = (gcnew System::Windows::Forms::MaskedTextBox());
 			this->buttonStop1 = (gcnew System::Windows::Forms::Button());
 			this->buttonStart1 = (gcnew System::Windows::Forms::Button());
-			this->maskedTextBox1 = (gcnew System::Windows::Forms::MaskedTextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->panel2 = (gcnew System::Windows::Forms::Panel());
 			this->buttonStop2 = (gcnew System::Windows::Forms::Button());
@@ -105,13 +106,29 @@ namespace Alarm {
 			// 
 			this->panel1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(98)), static_cast<System::Int32>(static_cast<System::Byte>(98)),
 				static_cast<System::Int32>(static_cast<System::Byte>(98)));
+			this->panel1->Controls->Add(this->maskedTextBox1);
 			this->panel1->Controls->Add(this->buttonStop1);
 			this->panel1->Controls->Add(this->buttonStart1);
-			this->panel1->Controls->Add(this->maskedTextBox1);
 			this->panel1->Location = System::Drawing::Point(0, 77);
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(460, 95);
 			this->panel1->TabIndex = 0;
+			// 
+			// maskedTextBox1
+			// 
+			this->maskedTextBox1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(98)), static_cast<System::Int32>(static_cast<System::Byte>(98)),
+				static_cast<System::Int32>(static_cast<System::Byte>(98)));
+			this->maskedTextBox1->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->maskedTextBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 26.03077F, System::Drawing::FontStyle::Regular,
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(204)));
+			this->maskedTextBox1->ForeColor = System::Drawing::SystemColors::HighlightText;
+			this->maskedTextBox1->Location = System::Drawing::Point(12, 20);
+			this->maskedTextBox1->Mask = L"00:00";
+			this->maskedTextBox1->Name = L"maskedTextBox1";
+			this->maskedTextBox1->Size = System::Drawing::Size(120, 54);
+			this->maskedTextBox1->TabIndex = 0;
+			this->maskedTextBox1->Text = L"0000";
+			this->maskedTextBox1->ValidatingType = System::DateTime::typeid;
 			// 
 			// buttonStop1
 			// 
@@ -142,23 +159,6 @@ namespace Alarm {
 			this->buttonStart1->Text = L"Установить";
 			this->buttonStart1->UseVisualStyleBackColor = false;
 			this->buttonStart1->Click += gcnew System::EventHandler(this, &MyForm::buttonStart1_Click);
-			// 
-			// maskedTextBox1
-			// 
-			this->maskedTextBox1->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(98)), static_cast<System::Int32>(static_cast<System::Byte>(98)),
-				static_cast<System::Int32>(static_cast<System::Byte>(98)));
-			this->maskedTextBox1->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->maskedTextBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 26.03077F, System::Drawing::FontStyle::Regular,
-				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(204)));
-			this->maskedTextBox1->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
-			this->maskedTextBox1->Location = System::Drawing::Point(12, 20);
-			this->maskedTextBox1->Mask = L"00:00";
-			this->maskedTextBox1->Name = L"maskedTextBox1";
-			this->maskedTextBox1->Size = System::Drawing::Size(120, 54);
-			this->maskedTextBox1->TabIndex = 0;
-			this->maskedTextBox1->Text = L"0000";
-			this->maskedTextBox1->ValidatingType = System::DateTime::typeid;
-			this->maskedTextBox1->MaskInputRejected += gcnew System::Windows::Forms::MaskInputRejectedEventHandler(this, &MyForm::maskedTextBox1_MaskInputRejected);
 			// 
 			// label1
 			// 
@@ -336,7 +336,7 @@ namespace Alarm {
 		String^ alarmTime1;
 		String^ alarmTime2;
 		String^ alarmTime3;
-		SoundPlayer^ sp = gcnew SoundPlayer("D:\\Projects_C\\2-nd\\2-nd\\Alarm\\sound\\sound.wav");
+		SoundPlayer^ sound = gcnew SoundPlayer("D:\\Projects_C\\2-nd\\2-nd\\Alarm\\sound\\sound.wav");
 #pragma endregion
 
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
@@ -357,7 +357,7 @@ namespace Alarm {
 
 		if ((alarmTime1 + (":00")) == label2->Text)
 		{
-			sp->Play();
+			sound->Play();
 			buttonStart1->Enabled = true;
 			buttonStop1->Enabled = false;
 			maskedTextBox1->Enabled = true;
@@ -365,7 +365,7 @@ namespace Alarm {
 
 		else if ((alarmTime2 + (":00")) == label2->Text)
 		{
-			sp->Play();
+			sound->Play();
 			buttonStart2->Enabled = true;
 			buttonStop2->Enabled = false;
 			maskedTextBox2->Enabled = true;
@@ -373,7 +373,7 @@ namespace Alarm {
 
 		else if ((alarmTime3 + (":00")) == label2->Text)
 		{
-			sp->Play();
+			sound->Play();
 			buttonStart3->Enabled = true;
 			buttonStop3->Enabled = false;
 			maskedTextBox3->Enabled = true;
@@ -385,7 +385,6 @@ namespace Alarm {
 
 		buttonStart1->Enabled = false;
 		buttonStop1->Enabled = true;
-
 		maskedTextBox1->Enabled = false;
 	}
 
@@ -395,35 +394,34 @@ namespace Alarm {
 		maskedTextBox1->Enabled = true;
 	}
 
-
 	private: System::Void buttonStart2_Click(System::Object^ sender, System::EventArgs^ e) {
 		alarmTime2 = maskedTextBox2->Text;
 
 		buttonStart2->Enabled = false;
 		buttonStop2->Enabled = true;
-
 		maskedTextBox2->Enabled = false;
 	}
-private: System::Void buttonStop2_Click(System::Object^ sender, System::EventArgs^ e) {
-	buttonStart2->Enabled = true;
-	buttonStop2->Enabled = false;
-	maskedTextBox2->Enabled = true;
-}
-private: System::Void buttonStart3_Click(System::Object^ sender, System::EventArgs^ e) {
-	alarmTime3 = maskedTextBox3->Text;
 
-	buttonStart3->Enabled = false;
-	buttonStop3->Enabled = true;
+	private: System::Void buttonStop2_Click(System::Object^ sender, System::EventArgs^ e) {
+		buttonStart2->Enabled = true;
+		buttonStop2->Enabled = false;
+		maskedTextBox2->Enabled = true;
+	}
 
-	maskedTextBox3->Enabled = false;
-}
-private: System::Void buttonStop3_Click(System::Object^ sender, System::EventArgs^ e) {
-	buttonStart3->Enabled = true;
-	buttonStop3->Enabled = false;
-	maskedTextBox3->Enabled = true;
-}
-private: System::Void maskedTextBox1_MaskInputRejected(System::Object^ sender, System::Windows::Forms::MaskInputRejectedEventArgs^ e) {
+	private: System::Void buttonStart3_Click(System::Object^ sender, System::EventArgs^ e) {
+		alarmTime3 = maskedTextBox3->Text;
 
-}
+		buttonStart3->Enabled = false;
+		buttonStop3->Enabled = true;
+		maskedTextBox3->Enabled = false;
+	}
+
+	private: System::Void buttonStop3_Click(System::Object^ sender, System::EventArgs^ e) {
+		buttonStart3->Enabled = true;
+		buttonStop3->Enabled = false;
+		maskedTextBox3->Enabled = true;
+	}
+
+
 };
 }
